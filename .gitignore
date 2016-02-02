@@ -1,0 +1,30 @@
+
+# compiled files
+*.pyc
+
+# temporary/directories
+.ipynb_checkpoints/
+
+# configuration files
+*.cfg
+# except the example file
+!example-config.cfg
+
+# data and zip files
+*.csv
+*.sql
+*.zip
+*.gz
+
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+*.xlsx
