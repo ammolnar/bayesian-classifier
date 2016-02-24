@@ -1,28 +1,37 @@
 from naivebayesian.naivebayesian import NaiveBayesian
-import utils.mysql_config as msc
-import MySQLdb as mdb
-import argparse
-import csv
+import configargparse
+import unicodecsv as csv
 import io
 
 def main():
 
     # get the arguments we need
-    parser = argparse.ArgumentParser(description='Apply bayesian classification to a set of rows.')
+    parser = configargparse.ArgumentParser(description='Apply bayesian classification to a set of rows.',
+        default_config_files=['config.cfg'],
+        ignore_unknown_config_file_keys=True)
     
-    parser.add_argument("bayesset", help='The bayesian set used to base classifications on')
+    # key files
     parser.add_argument("input", help='A csv file with rows to be classified')
     parser.add_argument("output", help='The name of a file to write to')
-    parser.add_argument("-db", "--database", default="bayesian", help='The database used to store the bayesian classification data')
-    parser.add_argument("-c", "--column", default=0, help='The column name or number of the content to be classified')
+    parser.add_argument("-c", "--config", default=None, is_config_file=True, help='Address of a config file')
+    
+    # database variables
+    parser.add_argument("-db", "--database", default="bayesian", help='The database used to store the bayesian classification data. For sqlite this will be used as the database file.')
+    parser.add_argument('--sqlite', dest='sqlite', action='store_true', help='Whether to use SQlite to store the data')
+    parser.add_argument('--mysql', dest='sqlite', action='store_false', help='User a MySQL database')
+    
+    # configuration variables
     parser.add_argument('--test', dest='test', action='store_true', help='Whether to do a test run (only 10 rows)')
     parser.add_argument('-l', '--limit', type=int, default=0, help='Put a limit on the number of rows run')
+    parser.add_argument("-t", "--threshold", type=float, default=-0.01, help='The threshold (out of 100) for accepting a match on (default -0.01 ie no threshold)')
+    
+    # CSV file options
+    parser.add_argument("--column", default=0, help='The column name or number of the content to be classified')
     parser.add_argument('--header', dest='header', action='store_true', help='Whether the CSV file has a header row')
     parser.add_argument('--no-header', dest='header', action='store_false', help='Whether the CSV file has a header row')
-    parser.add_argument("-t", "--threshold", type=float, default=-0.01, help='The threshold (out of 100) for accepting a match on (default -0.01 ie no threshold)')
+    parser.add_argument('--result-col', default='result', help='Header used for the results column')
     parser.add_argument("-d", "--delimiter", default=",", help='Delimiter used in the CSV file')
-    parser.set_defaults(header=True)
-    parser.set_defaults(test=False)
+    parser.set_defaults( header=True, test=False, sqlite=True )
     
     args = parser.parse_args()
     
@@ -41,7 +50,7 @@ def main():
     not_classified = 0    # the number of items that haven't been classified
     
     # set up the bayesian classifiers
-    nb = NaiveBayesian( msc.user, msc.password, msc.host, args.database, args.bayesset)
+    nb = NaiveBayesian( args.database )
     
     # open our file and load as CSV
     with open(args.input, 'rb') as csvfile:
@@ -53,9 +62,11 @@ def main():
             args.column = int(args.column)
         key = 0
         
+        nb.updateProbabilities()
+        
         with open(args.output, 'w') as csvoutput:
             headers = datarows.fieldnames
-            headers.append('result')
+            headers.append(args.result_col)
             writer  = csv.DictWriter(csvoutput, fieldnames=headers, lineterminator='\n', delimiter=args.delimiter)
             writer.writeheader()
             
@@ -82,10 +93,13 @@ def main():
                     else:
                         not_classified += 1
                     attempted_rows += 1
-                    row["result"] = row_result
+                    row[args.result_col] = row_result
                     writer.writerow( row )
                     if key % 100 == 0:
                         print key
+                
+                if args.test:
+                    print row
                 
                 # maintain the loop
                 key += 1
