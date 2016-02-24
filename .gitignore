@@ -1,6 +1,7 @@
 
 # compiled files
 *.pyc
+*.exe
 
 # temporary/directories
 .ipynb_checkpoints/
