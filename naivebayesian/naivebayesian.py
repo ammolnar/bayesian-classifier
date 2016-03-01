@@ -278,7 +278,7 @@ class NaiveBayesian:
             # if the score is positive, and the first one, then let's use it
             # the --threshold could be adjusted to give a higher threshold for chosing the answer (at the moment there is no barrier)
             if( score >= threshold and options==0 ):
-                best_match = cat
+                best_match = ( cat, score )
                 options += 1
         return best_match
         
