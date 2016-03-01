@@ -30,6 +30,7 @@ def main():
     parser.add_argument('--header', dest='header', action='store_true', help='Whether the CSV file has a header row')
     parser.add_argument('--no-header', dest='header', action='store_false', help='Whether the CSV file has a header row')
     parser.add_argument('--result-col', default='result', help='Header used for the results column')
+    parser.add_argument('--score-col', default='score', help='Header used for the result score column')
     parser.add_argument("-d", "--delimiter", default=",", help='Delimiter used in the CSV file')
     parser.set_defaults( header=True, test=False, sqlite=True )
     
@@ -84,19 +85,26 @@ def main():
                 to_cat = None
                 if(args.header == False or args.column in row):
                     to_cat = row[args.column]
+                    
+                row_result_category = None
+                row_result_score = None
             
                 # our result
                 if to_cat:
-                    row_result = nb.bestMatch( to_cat )
+                    row_result = nb.bestMatch( to_cat, args.threshold )
                     if row_result:
                         classified += 1
+                        row_result_category = row_result[0]
+                        row_result_score = row_result[1]
                     else:
                         not_classified += 1
                     attempted_rows += 1
-                    row[args.result_col] = row_result
                     writer.writerow( row )
                     if key % 100 == 0:
                         print key
+                
+                row[args.result_col] = row_result_category
+                row[args.score_col] = row_result_score
                 
                 if args.test:
                     print row
