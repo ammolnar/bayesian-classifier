@@ -23,7 +23,6 @@ def main():
     parser.add_argument('--test', dest='test', action='store_true', help='Whether to do a test run (only 10 rows)')
     parser.add_argument('--reset', dest='reset', action='store_true', help='Whether to reset the database before it\'s run')
     parser.add_argument('-l', '--limit', type=int, default=0, help='Put a limit on the number of rows run')
-    parser.add_argument("-t", "--threshold", type=float, default=-0.01, help='The threshold (out of 100) for accepting a match on (default -0.01 ie no threshold)')
     
     # CSV file options
     parser.add_argument("-desc", "--desc-column", default=1, help='The column name containing the description we are training on')
