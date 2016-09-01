@@ -7,7 +7,7 @@ have already been Each classification needs to be trained, and the trained data 
 sqlite database (files ending `.db`). Data to classify can then be run against these sqlite 
 databases to determine categories for individual rows.
 
-The classification library is based on [one developed in PHP](https://web.archive.org/web/20111211215027/http://www.xhtml.net/php/PHPNaiveBayesianFilter).
+The classification library is based on [one developed in PHP]https://web.archive.org/web/20111211215027/http://www.xhtml.net/php/PHPNaiveBayesianFilter).
 
 Python requirements
 -------------------
@@ -137,5 +137,3 @@ A column with the match score (out of 100) is also added.
 -	`--score-col`: the name of the column that will hold the score.
 -	`--header`, `--no-header`: whether or not the first row of the CSV file contains column headers
 -	`--delimiter`: CSV file delimiter
-
-
