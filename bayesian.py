@@ -68,6 +68,7 @@ def main():
         with open(args.output, 'w') as csvoutput:
             headers = datarows.fieldnames
             headers.append(args.result_col)
+            headers.append(args.score_col)
             writer  = csv.DictWriter(csvoutput, fieldnames=headers, lineterminator='\n', delimiter=args.delimiter)
             writer.writeheader()
             
@@ -99,19 +100,21 @@ def main():
                     else:
                         not_classified += 1
                     attempted_rows += 1
-                    writer.writerow( row )
+                    #writer.writerow( row ) # this will write out the FrID and description and an extra column called 'result' but with nothing in
                     if key % 100 == 0:
-                        print key
+						print key
+						
                 
                 row[args.result_col] = row_result_category
                 row[args.score_col] = row_result_score
+                writer.writerow( row ) # this row will write out the category as well as the FrID and description if 'row[args.score_col] = row_result_score' is commented out - they cannot be used together
                 
                 if args.test:
                     print row
                 
                 # maintain the loop
                 key += 1
-                if(args.limit > 0 and key >= args.limit):
+                if(args.limit > 0 and key >= args.limit): 
                     break # if we're testing or limited then break the loop
 
     print attempted_rows, "rows attempted"
