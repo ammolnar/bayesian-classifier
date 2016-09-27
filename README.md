@@ -3,9 +3,9 @@ Naive Bayesian Classification library
 
 Produce naive bayesian classifications that can be applied to text strings. The naive bayesian 
 classifier produces a model for classifying strings based on the words used in strings that 
-have already been Each classification needs to be trained, and the trained data is saved in an 
-sqlite database (files ending `.db`). Data to classify can then be run against these sqlite 
-databases to determine categories for individual rows.
+have already been trained. Each classification needs to be trained, and the trained data is 
+saved in an sqlite database (files ending `.db`). Data to classify can then be run against 
+these sqlite databases to determine categories for individual rows.
 
 The classification library is based on [one developed in PHP](https://web.archive.org/web/20111211215027/http://www.xhtml.net/php/PHPNaiveBayesianFilter).
 The original code is no longer available at the website, but is available through the web archive.
