@@ -54,7 +54,7 @@ The CSV file can contain any number of other columns, these will be ignored
 
 To train the classifier, run something similar to the following command:
 
-	> python bayesian_training.py --database indiv.db --id-column id --desc-column original_name --category-column Company --reset "arts-council.csv"
+	> python bayesian_training.py --database "training-data.db" --id-column id --desc-column original_name --category-column Company --reset "source-data.csv"
 
 The most important options are:
 
@@ -113,7 +113,7 @@ The input data consists of two parts:
 
 To run the classifier on an unclassified CSV file, use the following command.
 
-	> python bayesian.py --database indiv.db --column original_name "arts-council-test.csv" "arts-council-test-results.csv"
+	> python bayesian.py --database "training-data.db" --column original_name "to-classify.csv" "to-classify-results.csv"
 
 The following options are the most crucial:
 
