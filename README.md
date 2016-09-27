@@ -8,6 +8,12 @@ sqlite database (files ending `.db`). Data to classify can then be run against t
 databases to determine categories for individual rows.
 
 The classification library is based on [one developed in PHP](https://web.archive.org/web/20111211215027/http://www.xhtml.net/php/PHPNaiveBayesianFilter).
+The original code is no longer available at the website, but is available through the web archive.
+The original code was published (in French) under the [GNU General Public License version 2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html). 
+
+-	<https://web.archive.org/web/20111211215027/http://www.xhtml.net/php/PHPNaiveBayesianFilter>
+
+The new code in this repository is also licensed under the latest [GNU General Public License](https://www.gnu.org/licenses/gpl.html).
 
 Python requirements
 -------------------
