@@ -10,6 +10,7 @@
 *.cfg
 # except the example file
 !example-config.cfg
+bayesian_account_rows.py
 
 # data and zip files
 *.csv
